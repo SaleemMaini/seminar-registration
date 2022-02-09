@@ -1,0 +1,12 @@
+.header {
+    margin-bottom: 50px;
+}
+.header h1 {
+    color: white;
+    font-size: 3rem ; 
+    font-family: 'Helvetica';
+}
+
+.header h1 span {
+    color: #4992c9;
+}

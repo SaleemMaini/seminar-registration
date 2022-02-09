@@ -1,0 +1,45 @@
+/*
+    1px — 767px: Mobile devices
+    768px — 991px: Small screens, laptops
+    992px — 1199px: Medium Screens
+    1200px and more — large screens, TV
+*/
+
+.form-card {
+    margin-bottom: 3rem;
+    width: 100%;   /* Mobile first */
+  }
+
+/* Small Screens */
+@media (min-width: 768px)  {
+  .form-card  {
+    width: calc(33.33% - 15px);
+  }
+}
+  
+  .form-card-header {
+    background-color: white;
+    padding: 8px;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-left: 20px;
+    position: relative;
+    font-size: 14pt;
+    top: -15px;
+  }
+  
+  .form-card-content{
+    padding: 15px;
+  }
+
+  .form-card-content h3,
+  .form-card-content label
+  {
+    display: inline;
+    font-family: 'Helvetica';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 22px;
+  }
+
+  
