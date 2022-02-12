@@ -1,11 +1,11 @@
-import React, { Fragment } from "react";
+import React  from "react";
 
 const Input = (props) => {
   return (
-    <Fragment>
-      <input {...props.input} />
+    <div>
       <label htmlFor={props.input.id}>{props.label}</label>
-    </Fragment>
+      <input {...props.input} />
+    </div>
   );
 };
 
