@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { useState, useContext, useEffect } from "react";
 import Input from "../UI/Input";
 import RadioInput from "../UI/RadioInput";
-import classes from "./Step2.module.css";
 import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
 import { FormDataContext } from "../../store/FormDataContext";
 
@@ -56,14 +55,12 @@ const Step2 = () => {
     }
   }, [question1Radio, question2Radio, companyName]);
 
-
-  
   return (
     <Fragment>
       {/* QUESTION 1 */}
       <div>
         <h3>Would you like your company name on your badge? </h3>
-        <div className={classes["question-inputs"]}>
+        <div style={{ marginTop: "10px", fontSize: "20px" }}>
           <RadioInput
             input={{
               id: "question1Yes",
@@ -101,7 +98,7 @@ const Step2 = () => {
       {/* QUESTION 2 */}
       <div>
         <h3>Will anyone in your group require special accommodations? </h3>
-        <div className={classes["question-inputs"]}>
+        <div style={{ marginTop: "10px", fontSize: "20px" }}>
           <RadioInput
             input={{
               id: "question2Yes",
@@ -124,7 +121,6 @@ const Step2 = () => {
           />
         </div>
       </div>
-      {step2InputsIsValid ? <p>Yes</p> : <p>No</p>}
     </Fragment>
   );
 };

@@ -9,7 +9,6 @@ import Input from "../UI/Input";
 import Select from "../UI/Select";
 import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
 import { FormDataContext } from "../../store/FormDataContext";
-
 const Step1 = (props) => {
   const peopleCountOptions = [1, 2, 3, 4, 5]; // IF YOU WANT MORE OPTIONS JUST ADD ITEMS TO THE ARRAY HERE
   const selectPeopleCountRef = useRef();
@@ -101,7 +100,6 @@ const Step1 = (props) => {
       />
       {peopleNameInputs.length >= 1 && <h2>Please provide full names: </h2>}
       {peopleNameInputs}
-      {step1IsDone ? <p>done</p> : <p>no</p>}
     </Fragment>
   );
 };

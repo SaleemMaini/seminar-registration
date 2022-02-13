@@ -15,7 +15,16 @@
   background-color: #e8c3ab;
 }
 
+.checkMark {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.checkMark img {
+  max-width: 50%;
+}
 .disabled {
   pointer-events: none;
- opacity: 0.25 
+  opacity: 0.25;
 }

@@ -21,11 +21,9 @@ const Step3 = () => {
   }, [step3CheckBoxIsChecked]);
 
   useEffect(() => {
-    formDataCtx.context.updateFormDataStateHandler(
-      "step3",{
-        step3CheckBoxIsChecked : step3CheckBoxIsChecked
-      }
-    );
+    formDataCtx.context.updateFormDataStateHandler("step3", {
+      step3CheckBoxIsChecked: step3CheckBoxIsChecked,
+    });
   }, [step3CheckBoxIsChecked]);
 
   return (
