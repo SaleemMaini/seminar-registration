@@ -9,13 +9,25 @@ const Form = ({ step }) => {
   const step2IsDone = stepsCtx.stepIsDone.step2;
   const step3IsDone = stepsCtx.stepIsDone.step3;
   const step2VisibilityStyle = !step1IsDone ? classes.disabled : "";
-  const step3VisibilityStyle = !step1IsDone || !step2IsDone ? classes.disabled : "";
+  const step3VisibilityStyle =
+    !step1IsDone || !step2IsDone ? classes.disabled : "";
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    
+  };
   return (
-    <form className={classes["form-container"]}>
+    <form className={classes["form-container"]} onSubmit={submitHandler}>
       <FormCard step="1" />
       <FormCard step="2" className={step2VisibilityStyle} />
-      <FormCard step="3" className={step3VisibilityStyle}/>
+      <FormCard step="3" className={step3VisibilityStyle}>
+        <button
+          type="submit"
+          disabled={!step1IsDone || !step2IsDone || !step3IsDone}
+        >
+          Complete Registration
+        </button>
+      </FormCard>
     </form>
   );
 };

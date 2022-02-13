@@ -4,7 +4,7 @@ import Step2 from "../steps/Step2";
 import Step3 from "../steps/Step3";
 import classes from "./FormCard.module.css";
 
-const FormCard = ({ step, className }) => {
+const FormCard = ({ step, className, children }) => {
   return (
     <div className={`${classes["form-card"]} ${className}`}>
       <span className={classes["form-card-header"]}>Step {step}</span>
@@ -18,6 +18,7 @@ const FormCard = ({ step, className }) => {
         ) : (
           "NO STEP NUMBER PROVIDED"
         )}
+        {children}
       </div>
     </div>
   );

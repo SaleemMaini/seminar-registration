@@ -4,6 +4,7 @@ import Input from "../UI/Input";
 import RadioInput from "../UI/RadioInput";
 import classes from "./Step2.module.css";
 import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
+import { FormDataContext } from "../../store/FormDataContext";
 
 const Step2 = () => {
   const [question1Radio, setQuestion1Radio] = useState(null);
@@ -11,6 +12,7 @@ const Step2 = () => {
   const [companyName, setCompanyName] = useState("");
   const stepsCtx = useContext(StepVisibilityContext);
   const [step2InputsIsValid, setStep2InputsIsValid] = useState(false);
+  const formDataCtx = useContext(FormDataContext);
 
   const question1RadioChangHandler = (e) => {
     setQuestion1Radio(e.target.value);
@@ -38,6 +40,24 @@ const Step2 = () => {
       stepsCtx.context.setStepIsDoneTrue("step2");
     }
   }, [step2InputsIsValid, question1Radio, question2Radio, companyNameIsEmpty]);
+
+  useEffect(() => {
+    if (companyName === "") {
+      formDataCtx.context.updateFormDataStateHandler("step2", {
+        question1: question1Radio,
+        question2: question2Radio,
+      });
+    } else {
+      formDataCtx.context.updateFormDataStateHandler("step2", {
+        question1: question1Radio,
+        question2: question2Radio,
+        companyName: companyName,
+      });
+    }
+  }, [question1Radio, question2Radio, companyName]);
+
+
+  
   return (
     <Fragment>
       {/* QUESTION 1 */}

@@ -16,7 +16,6 @@
 }
 
 .disabled {
-  /* pointer-events: none;
- opacity: 0.25  */
- color: brown;
+  pointer-events: none;
+ opacity: 0.25 
 }

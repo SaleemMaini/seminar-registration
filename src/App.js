@@ -1,13 +1,16 @@
 import Layout from "./components/layouts/Layout";
 import Form from "./components/Form/Form";
-import {StepVisibilityProvider} from "./store/StepVisibilityContextProvider";
+import { StepVisibilityProvider } from "./store/StepVisibilityContextProvider";
+import { FormDataContextProvider } from "./store/FormDataContext";
 
 function App() {
   return (
     <StepVisibilityProvider>
-    <Layout>
-      <Form />
-    </Layout>
+      <FormDataContextProvider>
+        <Layout>
+          <Form />
+        </Layout>
+      </FormDataContextProvider>
     </StepVisibilityProvider>
   );
 }
