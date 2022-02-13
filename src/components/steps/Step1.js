@@ -16,6 +16,7 @@ const Step1 = (props) => {
   const [step1IsDone, setStep1IsDone] = useState(false);
   const [nameInputsState, setNameInputsState] = useState({});
   const step1Ctx = useContext(StepVisibilityContext);
+
   const peopleCountHandler = () => {
     const selectedValue = selectPeopleCountRef.current.value;
     setSelectedPeopleCount(selectedValue);
@@ -95,12 +96,12 @@ const Step1 = (props) => {
         onClick={(e) => {
           e.preventDefault();
           console.log(nameInputsState);
-          console.log(step1Ctx.stepIsDone)
+          console.log(step1Ctx.stepIsDone);
         }}
       >
         show name input state and context values
       </button>
-      
+
       {step1IsDone ? <p>done</p> : <p>no</p>}
     </Fragment>
   );

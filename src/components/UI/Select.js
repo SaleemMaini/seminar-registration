@@ -4,8 +4,8 @@ const Select = React.forwardRef((props, ref) => {
   return (
     <Fragment>
       <label htmlFor={props.id}>{props.label}</label>
-      <select id={props.id} style={{ width: "130px" }} ref={ref} onChange={props.onChange}>
-        <option selected disabled>
+      <select id={props.id} style={{ width: "130px" }} ref={ref} onChange={props.onChange} defaultValue={"Please choose"}>
+        <option  disabled>
           Please choose
         </option>
         {props.options.map((optionItem) => (
