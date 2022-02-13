@@ -4,11 +4,10 @@ import { useMemo } from "react";
 
 export const FormDataContext = createContext();
 
-
-
 const defaultFormDataState = {
   step1: {
-    attendeeName1: "",
+    namesCount: 1,
+    names: { attendeeName1: "" },
   },
   step2: {
     question1: null,
@@ -34,7 +33,7 @@ export const FormDataContextProvider = (props) => {
         setFormDataState({
           ...defaultFormDataState,
         });
-      }
+      },
     }),
     [formDataState, setFormDataState]
   );

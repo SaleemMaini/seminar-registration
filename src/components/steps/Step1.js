@@ -15,9 +15,10 @@ const Step1 = (props) => {
   const selectPeopleCountRef = useRef();
   const [selectedPeopleCount, setSelectedPeopleCount] = useState(0);
   const [step1IsDone, setStep1IsDone] = useState(false);
-  const [nameInputsState, setNameInputsState] = useState({});
   const step1Ctx = useContext(StepVisibilityContext);
   const formDataCtx = useContext(FormDataContext);
+  const nameInputsStateCtx = formDataCtx.formDataState.step1.names;
+  const selectedNamesCount = formDataCtx.formDataState.step1.namesCount;
 
   const peopleCountHandler = () => {
     const selectedValue = selectPeopleCountRef.current.value;
@@ -25,14 +26,14 @@ const Step1 = (props) => {
     // INIT VALUES
     for (let i = 1; i <= selectedValue; i++) {
       const key = `attendeeName${i}`;
-      if (nameInputsState[key] === undefined) {
-        nameInputsState[key] = "";
+      if (nameInputsStateCtx[key] === undefined) {
+        nameInputsStateCtx[key] = "";
       }
     }
     // DELETE UN USEFUL DATA
-    if (selectedValue < Object.keys(nameInputsState).length) {
+    if (selectedValue < Object.keys(nameInputsStateCtx).length) {
       for (let i = +selectedValue + 1; i < 10; i++) {
-        delete nameInputsState[`attendeeName${i}`];
+        delete nameInputsStateCtx[`attendeeName${i}`];
       }
     }
   };
@@ -40,9 +41,14 @@ const Step1 = (props) => {
   const inputChangeHandler = (e) => {
     const key = e.target.id;
     const value = e.target.value;
-    setNameInputsState({ ...nameInputsState, [key]: value });
+    formDataCtx.context.updateFormDataStateHandler("step1", {
+      names: {
+        ...nameInputsStateCtx,
+        [key]: value,
+      },
+    });
   };
-
+  console.log(nameInputsStateCtx);
   const peopleNameInputs = [];
   for (let i = 1; i <= selectedPeopleCount; i++) {
     peopleNameInputs.push(
@@ -51,7 +57,7 @@ const Step1 = (props) => {
           type: "text",
           id: `attendeeName${i}`,
           onChange: inputChangeHandler,
-          value: formDataCtx.formDataState.step1[`attendeeName${i}`],
+          value: nameInputsStateCtx[`attendeeName${i}`],
         }}
         label={`Attendee ${i} Name  `}
         key={`${i}`}
@@ -59,8 +65,8 @@ const Step1 = (props) => {
       />
     );
   }
-  const enteredNames = Object.keys(nameInputsState).map(function (key) {
-    return nameInputsState[key];
+  const enteredNames = Object.keys(nameInputsStateCtx).map(function (key) {
+    return nameInputsStateCtx[key];
   });
 
   //  step 1 is done
@@ -84,14 +90,6 @@ const Step1 = (props) => {
     }
   }, [step1IsDone]);
 
-  // UPDATE FORM DATA CONTEXT WHEN NAME INPUT STATE IS UPDATED
-  useEffect(() => {
-    formDataCtx.context.updateFormDataStateHandler("step1", nameInputsState);
-  }, [nameInputsState]);
-
-
-
-  
   return (
     <Fragment>
       <h3>How many people will be attending? </h3>
