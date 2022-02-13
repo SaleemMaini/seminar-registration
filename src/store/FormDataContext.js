@@ -4,16 +4,18 @@ import { useMemo } from "react";
 
 export const FormDataContext = createContext();
 
+
+
 const defaultFormDataState = {
   step1: {
-    attendeeName: "",
+    attendeeName1: "",
   },
   step2: {
-    question1: "YES",
-    question2: "NO",
+    question1: null,
+    question2: null,
   },
   step3: {
-    checkBox: false,
+    step3CheckBoxIsChecked: null,
   },
 };
 
@@ -28,6 +30,11 @@ export const FormDataContextProvider = (props) => {
           [i]: newStateData,
         });
       },
+      resetFormDataStateHandler() {
+        setFormDataState({
+          ...defaultFormDataState,
+        });
+      }
     }),
     [formDataState, setFormDataState]
   );

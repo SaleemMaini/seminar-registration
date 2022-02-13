@@ -65,7 +65,7 @@ const Step2 = () => {
             input={{
               id: "question1Yes",
               name: "question1",
-              checked: question1Radio === "YES",
+              checked: formDataCtx.formDataState.step2.question1 === "YES",
               value: "YES",
               onChange: question1RadioChangHandler,
             }}
@@ -75,7 +75,7 @@ const Step2 = () => {
             input={{
               id: "question1No",
               name: "question1",
-              checked: question1Radio === "NO",
+              checked: formDataCtx.formDataState.step2.question1 === "NO",
               value: "NO",
               onChange: question1RadioChangHandler,
             }}
@@ -103,7 +103,7 @@ const Step2 = () => {
             input={{
               id: "question2Yes",
               name: "question2",
-              checked: question2Radio === "YES",
+              checked: formDataCtx.formDataState.step2.question2 === "YES",
               value: "YES",
               onChange: question2RadioChangHandler,
             }}
@@ -113,7 +113,7 @@ const Step2 = () => {
             input={{
               id: "question2No",
               name: "question2",
-              checked: question2Radio === "NO",
+              checked: formDataCtx.formDataState.step2.question2 === "NO",
               value: "NO",
               onChange: question2RadioChangHandler,
             }}

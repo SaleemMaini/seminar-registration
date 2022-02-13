@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import FormCard from "./FormCard";
 import classes from "./Form.module.css";
 import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
 import { FormDataContext } from "../../store/FormDataContext";
 import checkMark from "../../assets/check-icon.png";
+
 const Form = ({ step }) => {
   const stepsCtx = useContext(StepVisibilityContext);
   const step1IsDone = stepsCtx.stepIsDone.step1;
@@ -11,14 +12,29 @@ const Form = ({ step }) => {
   const step3IsDone = stepsCtx.stepIsDone.step3;
   const formDataCtx = useContext(FormDataContext);
 
-  const step2VisibilityStyle = !step1IsDone ? classes.disabled : "";
-  const step3VisibilityStyle =
-    !step1IsDone || !step2IsDone ? classes.disabled : "";
+  const [step2VisibilityStyle, setStep2VisibilityStyle] = useState("");
+  const [step3VisibilityStyle, setStep3VisibilityStyle] = useState("");
 
+  useEffect(() => {
+    if (!step1IsDone) {
+      setStep2VisibilityStyle(classes.disabled);
+    } else if (step1IsDone) {
+      setStep2VisibilityStyle("");
+    }
+
+    if (!step1IsDone || !step2IsDone) {
+      setStep3VisibilityStyle(classes.disabled);
+    } else if (step1IsDone && step2IsDone) {
+      setStep3VisibilityStyle("");
+    }
+  }, [step1IsDone, step2IsDone]);
+  console.log(step1IsDone, step2IsDone);
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(formDataCtx.formDataState);
+    formDataCtx.context.resetFormDataStateHandler();
   };
+
   return (
     <form className={classes["form-container"]} onSubmit={submitHandler}>
       <FormCard step="1">
@@ -27,6 +43,7 @@ const Form = ({ step }) => {
             <img src={checkMark} alt="checkMarkIcon" />
           </div>
         )}
+        
       </FormCard>
 
       <FormCard step="2" className={step2VisibilityStyle}>

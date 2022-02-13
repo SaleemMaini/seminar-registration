@@ -9,6 +9,7 @@ import Input from "../UI/Input";
 import Select from "../UI/Select";
 import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
 import { FormDataContext } from "../../store/FormDataContext";
+
 const Step1 = (props) => {
   const peopleCountOptions = [1, 2, 3, 4, 5]; // IF YOU WANT MORE OPTIONS JUST ADD ITEMS TO THE ARRAY HERE
   const selectPeopleCountRef = useRef();
@@ -50,7 +51,7 @@ const Step1 = (props) => {
           type: "text",
           id: `attendeeName${i}`,
           onChange: inputChangeHandler,
-          value: nameInputsState[`attendeeName${i}`],
+          value: formDataCtx.formDataState.step1[`attendeeName${i}`],
         }}
         label={`Attendee ${i} Name  `}
         key={`${i}`}
@@ -58,7 +59,6 @@ const Step1 = (props) => {
       />
     );
   }
-
   const enteredNames = Object.keys(nameInputsState).map(function (key) {
     return nameInputsState[key];
   });
@@ -89,6 +89,9 @@ const Step1 = (props) => {
     formDataCtx.context.updateFormDataStateHandler("step1", nameInputsState);
   }, [nameInputsState]);
 
+
+
+  
   return (
     <Fragment>
       <h3>How many people will be attending? </h3>

@@ -32,7 +32,7 @@ const Step3 = () => {
         input={{
           id: "step3CheckBox",
           type: "checkbox",
-          checked: step3CheckBoxIsChecked,
+          checked: formDataCtx.formDataState.step3.step3CheckBoxIsChecked === true,
           onChange: step3CheckBoxChangeHandler,
         }}
         label="Are you ready to rock? "
