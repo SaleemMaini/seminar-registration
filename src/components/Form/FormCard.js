@@ -4,22 +4,15 @@ import Step2 from "../steps/Step2";
 import Step3 from "../steps/Step3";
 import classes from "./FormCard.module.css";
 
-const FormCard = ({ step }) => {
-  
-  const getStep1IsDoneValue = (val) => {
-    if (val) {
-      console.log('step1 is done')
-    }
-  }
-
+const FormCard = ({ step, className }) => {
   return (
-    <div className={classes["form-card"]}>
+    <div className={`${classes["form-card"]} ${className}`}>
       <span className={classes["form-card-header"]}>Step {step}</span>
       <div className={classes["form-card-content"]}>
         {step === "1" ? (
-          <Step1 step1IsDone={getStep1IsDoneValue} />
+          <Step1  />
         ) : step === "2" ? (
-          <Step2  />
+          <Step2 />
         ) : step === "3" ? (
           <Step3 />
         ) : (

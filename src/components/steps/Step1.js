@@ -1,6 +1,13 @@
-import React, { Fragment, useRef, useState, useEffect } from "react";
+import React, {
+  Fragment,
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+} from "react";
 import Input from "../UI/Input";
 import Select from "../UI/Select";
+import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
 
 const Step1 = (props) => {
   const peopleCountOptions = [1, 2, 3, 4, 5]; // IF YOU WANT MORE OPTIONS JUST ADD ITEMS TO THE ARRAY HERE
@@ -8,7 +15,7 @@ const Step1 = (props) => {
   const [selectedPeopleCount, setSelectedPeopleCount] = useState(0);
   const [step1IsDone, setStep1IsDone] = useState(false);
   const [nameInputsState, setNameInputsState] = useState({});
-
+  const step1Ctx = useContext(StepVisibilityContext);
   const peopleCountHandler = () => {
     const selectedValue = selectPeopleCountRef.current.value;
     setSelectedPeopleCount(selectedValue);
@@ -54,7 +61,7 @@ const Step1 = (props) => {
     return nameInputsState[key];
   });
 
-// Check step 1 is done
+  // Check step 1 is done
   useEffect(() => {
     if (
       enteredNames.includes("") ||
@@ -66,9 +73,13 @@ const Step1 = (props) => {
       setStep1IsDone(true);
     }
   }, [enteredNames]);
-  
-  props.step1IsDone(step1IsDone);
-  
+  useEffect(() => {
+    if (step1IsDone) {
+      step1Ctx.context.setStepIsDoneTrue("step1");
+    } else {
+      step1Ctx.context.setStepIsDoneFalse("step1");
+    }
+  }, [step1IsDone]);
   return (
     <Fragment>
       <h3>How many people will be attending? </h3>
@@ -83,11 +94,13 @@ const Step1 = (props) => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          return console.log(nameInputsState);
+          console.log(nameInputsState);
+          console.log(step1Ctx.stepIsDone)
         }}
       >
-        show name input state
+        show name input state and context values
       </button>
+      
       {step1IsDone ? <p>done</p> : <p>no</p>}
     </Fragment>
   );

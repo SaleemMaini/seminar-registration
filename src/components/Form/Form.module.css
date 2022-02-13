@@ -14,3 +14,8 @@
 .form-container > div:last-child {
   background-color: #e8c3ab;
 }
+
+.disabled {
+  pointer-events: none;
+ opacity: 0.25 
+}
