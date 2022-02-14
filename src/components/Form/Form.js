@@ -13,6 +13,7 @@ const Form = ({ step }) => {
   const [step2VisibilityStyle, setStep2VisibilityStyle] = useState("");
   const [step3VisibilityStyle, setStep3VisibilityStyle] = useState("");
 
+  
   useEffect(() => {
     if (!step1IsDoneCtx) {
       setStep2VisibilityStyle(classes.disabled);
@@ -53,6 +54,22 @@ const Form = ({ step }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(outPut);
+    
+    fetch(
+      "https://seminar-registration-186cb-default-rtdb.firebaseio.com/registrations.json",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          namesCount: enteredNamesCount,
+          names : enteredNames,
+          isTheAttendedWantCompanyName : isTheAttendedWantCompanyName,
+          companyName: badgeCompanyName,
+          isAnyoneRequireSpecialAccommodations: isAnyoneRequireSpecialAccommodations,
+          isAttendeeReadyToRock: isAttendeeReadyToRock
+        }),
+      }
+    );
+
     formDataCtx.context.resetFormDataStateHandler();
   };
 
