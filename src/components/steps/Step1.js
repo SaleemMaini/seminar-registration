@@ -2,6 +2,7 @@ import React, { Fragment, useRef, useEffect, useContext } from "react";
 import Input from "../UI/Input";
 import Select from "../UI/Select";
 import { FormDataContext } from "../../store/FormDataContext";
+import classes from "../Form/Form.module.css";
 
 const Step1 = (props) => {
   const peopleCountOptions = [1, 2, 3, 4, 5]; // IF YOU WANT MORE OPTIONS JUST ADD ITEMS TO THE ARRAY HERE
@@ -64,15 +65,14 @@ const Step1 = (props) => {
   });
 
   const emptyValue = enteredNames.map((e) => e.trim() === "");
-  
+
   //  step 1 is done
   const inputsIsEmpty =
     enteredNames.includes("") ||
     enteredNames.includes(undefined) ||
     enteredNames.length === 0 ||
     selectedNamesCountCtx === 0 ||
-    emptyValue.includes(true)
-    
+    emptyValue.includes(true);
 
   useEffect(() => {
     if (inputsIsEmpty) {
@@ -92,8 +92,13 @@ const Step1 = (props) => {
         onChange={peopleCountHandler}
         value={selectedNamesCountCtx}
       />
-      {peopleNameInputs.length >= 1 && <h2>Please provide full names: </h2>}
-      {peopleNameInputs}
+
+      {peopleNameInputs.length >= 1 && (
+        <div className={classes["slide-down-animation"]}>
+          <h2>Please provide full names: </h2>
+          {peopleNameInputs}
+        </div>
+      )}
     </Fragment>
   );
 };
