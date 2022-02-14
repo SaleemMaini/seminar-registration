@@ -26,13 +26,36 @@ const Form = ({ step }) => {
       setStep3VisibilityStyle("");
     }
   }, [step1IsDoneCtx, step2IsDoneCtx]);
-  
+  // OUT PUT
+  const enteredNamesCount = formDataCtx.formDataState.step1.namesCount;
+  const enteredNames = formDataCtx.formDataState.step1.names;
+  const isTheAttendedWantCompanyName =
+    formDataCtx.formDataState.step2.question1;
+  const badgeCompanyName = formDataCtx.formDataState.step2.companyName;
+  const isAnyoneRequireSpecialAccommodations =
+    formDataCtx.formDataState.step2.question2;
+  const isAttendeeReadyToRock =
+    formDataCtx.formDataState.step3.step3CheckBoxIsChecked;
+
+
+  const outPut = `The number of people will be attending is:  ${enteredNamesCount}, \n
+    there names is: ${JSON.stringify(enteredNames)} \n
+    the attendee want his company name on the badge: ${
+      isTheAttendedWantCompanyName === "YES"
+        ? "YES, the company name is : " + badgeCompanyName
+        : "NO"
+    }, \n
+    Is Anyone Require Special Accommodations: ${
+      isAnyoneRequireSpecialAccommodations === "YES" ? "YES" : "NO"
+    }, \n
+    Is Attendee Ready To Rock: ${isAttendeeReadyToRock ? "YES" : "NO"}
+    `;
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(formDataCtx.formDataState);
+    console.log(outPut);
     formDataCtx.context.resetFormDataStateHandler();
   };
-  
+
   return (
     <form className={classes["form-container"]} onSubmit={submitHandler}>
       <FormCard step="1">
@@ -41,7 +64,6 @@ const Form = ({ step }) => {
             <img src={checkMark} alt="checkMarkIcon" />
           </div>
         )}
-        
       </FormCard>
 
       <FormCard step="2" className={step2VisibilityStyle}>
