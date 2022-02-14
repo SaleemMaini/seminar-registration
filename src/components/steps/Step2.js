@@ -1,59 +1,54 @@
 import React, { Fragment } from "react";
-import { useState, useContext, useEffect } from "react";
+import {useContext, useEffect } from "react";
 import Input from "../UI/Input";
 import RadioInput from "../UI/RadioInput";
-import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
 import { FormDataContext } from "../../store/FormDataContext";
 
 const Step2 = () => {
-  const [question1Radio, setQuestion1Radio] = useState(null);
-  const [question2Radio, setQuestion2Radio] = useState(null);
-  const [companyName, setCompanyName] = useState("");
-  const stepsCtx = useContext(StepVisibilityContext);
-  const [step2InputsIsValid, setStep2InputsIsValid] = useState(false);
   const formDataCtx = useContext(FormDataContext);
+  const question1StateCtx = formDataCtx.formDataState.step2.question1;
+  const question2StateCtx = formDataCtx.formDataState.step2.question2;
+  const companyNameStateCtx = formDataCtx.formDataState.step2.companyName;
 
   const question1RadioChangHandler = (e) => {
-    setQuestion1Radio(e.target.value);
+    formDataCtx.context.updateFormDataStateHandler("step2", {
+      question1: e.target.value,
+      question2: question2StateCtx,
+      companyName : companyNameStateCtx
+    });
   };
 
   const question2RadioChangHandler = (e) => {
-    setQuestion2Radio(e.target.value);
+    formDataCtx.context.updateFormDataStateHandler("step2", {
+      question1: question1StateCtx,
+      question2: e.target.value,
+      companyName : companyNameStateCtx
+    });
   };
 
   const companyNameChangeHandler = (e) => {
-    setCompanyName(e.target.value);
+    formDataCtx.context.updateFormDataStateHandler("step2", {
+      question1: question1StateCtx,
+      question2: question2StateCtx,
+      companyName : e.target.value
+    });
   };
 
-  const companyNameIsEmpty = question1Radio === "YES" && companyName === "";
+  const companyNameIsEmpty = question1StateCtx === "YES" && companyNameStateCtx === "";
+  
+  
   useEffect(() => {
     if (
-      question1Radio === null ||
-      question2Radio === null ||
+      question1StateCtx === null ||
+      question2StateCtx === null ||
       companyNameIsEmpty
     ) {
-      setStep2InputsIsValid(false);
-      stepsCtx.context.setStepIsDoneFalse("step2");
+      formDataCtx.context.updateFormDataStateHandler("step2IsDone", false);
     } else {
-      setStep2InputsIsValid(true);
-      stepsCtx.context.setStepIsDoneTrue("step2");
+      formDataCtx.context.updateFormDataStateHandler("step2IsDone", true);
     }
-  }, [step2InputsIsValid, question1Radio, question2Radio, companyNameIsEmpty]);
+  }, [question1StateCtx, question2StateCtx, companyNameIsEmpty]);
 
-  useEffect(() => {
-    if (companyName === "") {
-      formDataCtx.context.updateFormDataStateHandler("step2", {
-        question1: question1Radio,
-        question2: question2Radio,
-      });
-    } else {
-      formDataCtx.context.updateFormDataStateHandler("step2", {
-        question1: question1Radio,
-        question2: question2Radio,
-        companyName: companyName,
-      });
-    }
-  }, [question1Radio, question2Radio, companyName]);
 
   return (
     <Fragment>
@@ -65,7 +60,7 @@ const Step2 = () => {
             input={{
               id: "question1Yes",
               name: "question1",
-              checked: formDataCtx.formDataState.step2.question1 === "YES",
+              checked: question1StateCtx === "YES",
               value: "YES",
               onChange: question1RadioChangHandler,
             }}
@@ -75,18 +70,18 @@ const Step2 = () => {
             input={{
               id: "question1No",
               name: "question1",
-              checked: formDataCtx.formDataState.step2.question1 === "NO",
+              checked: question1StateCtx === "NO",
               value: "NO",
               onChange: question1RadioChangHandler,
             }}
             label="No"
           />
         </div>
-        {question1Radio === "YES" && (
+        {question1StateCtx === "YES" && (
           <Input
             input={{
               type: "text",
-              value: companyName,
+              value: companyNameStateCtx,
               id: "companyName",
               onChange: companyNameChangeHandler,
             }}
@@ -103,7 +98,7 @@ const Step2 = () => {
             input={{
               id: "question2Yes",
               name: "question2",
-              checked: formDataCtx.formDataState.step2.question2 === "YES",
+              checked: question2StateCtx === "YES",
               value: "YES",
               onChange: question2RadioChangHandler,
             }}
@@ -113,8 +108,8 @@ const Step2 = () => {
             input={{
               id: "question2No",
               name: "question2",
-              checked: formDataCtx.formDataState.step2.question2 === "NO",
-              value: "NO",
+              checked: question2StateCtx === "NO",
+              value:"NO",
               onChange: question2RadioChangHandler,
             }}
             label="No"

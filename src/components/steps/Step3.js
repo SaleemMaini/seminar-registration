@@ -1,30 +1,25 @@
-import React, { Fragment, useState, useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import Input from "../UI/Input";
-import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
 import { FormDataContext } from "../../store/FormDataContext";
 
 const Step3 = () => {
-  const [step3CheckBoxIsChecked, setStep3CheckBoxIsChecked] = useState(false);
-  const stepsCtx = useContext(StepVisibilityContext);
   const formDataCtx = useContext(FormDataContext);
+  const step3CheckBoxIsCheckedCtx =
+    formDataCtx.formDataState.step3.step3CheckBoxIsChecked;
 
   const step3CheckBoxChangeHandler = (e) => {
-    setStep3CheckBoxIsChecked(e.target.checked);
+    formDataCtx.context.updateFormDataStateHandler("step3", {
+      step3CheckBoxIsChecked: e.target.checked,
+    });
   };
 
   useEffect(() => {
-    if (step3CheckBoxIsChecked) {
-      stepsCtx.context.setStepIsDoneTrue("step3");
+    if (step3CheckBoxIsCheckedCtx) {
+      formDataCtx.context.updateFormDataStateHandler("step3IsDone", true);
     } else {
-      stepsCtx.context.setStepIsDoneFalse("step3");
+      formDataCtx.context.updateFormDataStateHandler("step3IsDone", false);
     }
-  }, [step3CheckBoxIsChecked]);
-
-  useEffect(() => {
-    formDataCtx.context.updateFormDataStateHandler("step3", {
-      step3CheckBoxIsChecked: step3CheckBoxIsChecked,
-    });
-  }, [step3CheckBoxIsChecked]);
+  }, [step3CheckBoxIsCheckedCtx]);
 
   return (
     <Fragment>
@@ -32,7 +27,7 @@ const Step3 = () => {
         input={{
           id: "step3CheckBox",
           type: "checkbox",
-          checked: formDataCtx.formDataState.step3.step3CheckBoxIsChecked === true,
+          checked: step3CheckBoxIsCheckedCtx === true,
           onChange: step3CheckBoxChangeHandler,
         }}
         label="Are you ready to rock? "

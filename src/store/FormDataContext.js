@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useState } from "react";
-import { useMemo } from "react";
+import { useMemo,useEffect } from "react";
 
 export const FormDataContext = createContext();
 
@@ -12,10 +12,14 @@ const defaultFormDataState = {
   step2: {
     question1: null,
     question2: null,
+    companyName: "",
   },
   step3: {
     step3CheckBoxIsChecked: null,
   },
+  step1IsDone: false,
+  step2IsDone: false,
+  step3IsDone: false,
 };
 
 export const FormDataContextProvider = (props) => {

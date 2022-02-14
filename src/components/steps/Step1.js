@@ -1,24 +1,15 @@
-import React, {
-  Fragment,
-  useRef,
-  useState,
-  useEffect,
-  useContext,
-} from "react";
+import React, { Fragment, useRef, useEffect, useContext } from "react";
 import Input from "../UI/Input";
 import Select from "../UI/Select";
-import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
 import { FormDataContext } from "../../store/FormDataContext";
 
 const Step1 = (props) => {
-  const peopleCountOptions = [ 1, 2, 3, 4, 5]; // IF YOU WANT MORE OPTIONS JUST ADD ITEMS TO THE ARRAY HERE
+  const peopleCountOptions = [1, 2, 3, 4, 5]; // IF YOU WANT MORE OPTIONS JUST ADD ITEMS TO THE ARRAY HERE
   const selectPeopleCountRef = useRef();
-  const [step1IsDone, setStep1IsDone] = useState(false);
-  const step1Ctx = useContext(StepVisibilityContext);
   const formDataCtx = useContext(FormDataContext);
   const nameInputsStateCtx = formDataCtx.formDataState.step1.names;
   const selectedNamesCountCtx = formDataCtx.formDataState.step1.namesCount;
-  console.log(selectedNamesCountCtx);
+
   const peopleCountHandler = () => {
     const selectedValue = selectPeopleCountRef.current.value;
     formDataCtx.context.updateFormDataStateHandler("step1", {
@@ -51,6 +42,7 @@ const Step1 = (props) => {
       namesCount: selectedNamesCountCtx,
     });
   };
+
   const peopleNameInputs = [];
   for (let i = 1; i <= selectedNamesCountCtx; i++) {
     peopleNameInputs.push(
@@ -72,27 +64,20 @@ const Step1 = (props) => {
   });
 
   //  step 1 is done
-  useEffect(() => {
-    if (
-      enteredNames.includes("") ||
-      enteredNames.includes(undefined) ||
-      enteredNames.length === 0 ||
-      selectedNamesCountCtx === 0
-    ) {
-      setStep1IsDone(false);
-    } else {
-      setStep1IsDone(true);
-    }
-  }, [enteredNames]);
+  const inputsIsEmpty =
+    enteredNames.includes("") ||
+    enteredNames.includes(undefined) ||
+    enteredNames.length === 0 ||
+    selectedNamesCountCtx === 0;
 
   useEffect(() => {
-    if (step1IsDone) {
-      step1Ctx.context.setStepIsDoneTrue("step1");
+    if (inputsIsEmpty) {
+      formDataCtx.context.updateFormDataStateHandler("step1IsDone", false);
     } else {
-      step1Ctx.context.setStepIsDoneFalse("step1");
+      formDataCtx.context.updateFormDataStateHandler("step1IsDone", true);
     }
-  }, [step1IsDone]);
-  
+  }, [inputsIsEmpty]);
+
   return (
     <Fragment>
       <h3>How many people will be attending? </h3>

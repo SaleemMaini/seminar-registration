@@ -1,44 +1,42 @@
 import React, { useContext, useState, useEffect } from "react";
 import FormCard from "./FormCard";
 import classes from "./Form.module.css";
-import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider";
 import { FormDataContext } from "../../store/FormDataContext";
 import checkMark from "../../assets/check-icon.png";
 
 const Form = ({ step }) => {
-  const stepsCtx = useContext(StepVisibilityContext);
-  const step1IsDone = stepsCtx.stepIsDone.step1;
-  const step2IsDone = stepsCtx.stepIsDone.step2;
-  const step3IsDone = stepsCtx.stepIsDone.step3;
   const formDataCtx = useContext(FormDataContext);
+  const step1IsDoneCtx = formDataCtx.formDataState.step1IsDone;
+  const step2IsDoneCtx = formDataCtx.formDataState.step2IsDone;
+  const step3IsDoneCtx = formDataCtx.formDataState.step3IsDone;
 
   const [step2VisibilityStyle, setStep2VisibilityStyle] = useState("");
   const [step3VisibilityStyle, setStep3VisibilityStyle] = useState("");
 
   useEffect(() => {
-    if (!step1IsDone) {
+    if (!step1IsDoneCtx) {
       setStep2VisibilityStyle(classes.disabled);
-    } else if (step1IsDone) {
+    } else if (step1IsDoneCtx) {
       setStep2VisibilityStyle("");
     }
 
-    if (!step1IsDone || !step2IsDone) {
+    if (!step1IsDoneCtx || !step2IsDoneCtx) {
       setStep3VisibilityStyle(classes.disabled);
-    } else if (step1IsDone && step2IsDone) {
+    } else if (step1IsDoneCtx && step2IsDoneCtx) {
       setStep3VisibilityStyle("");
     }
-  }, [step1IsDone, step2IsDone]);
-  console.log(step1IsDone, step2IsDone);
+  }, [step1IsDoneCtx, step2IsDoneCtx]);
+  
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(formDataCtx.formDataState);
     formDataCtx.context.resetFormDataStateHandler();
   };
-
+  
   return (
     <form className={classes["form-container"]} onSubmit={submitHandler}>
       <FormCard step="1">
-        {step1IsDone && (
+        {step1IsDoneCtx && (
           <div className={classes.checkMark}>
             <img src={checkMark} alt="checkMarkIcon" />
           </div>
@@ -47,7 +45,7 @@ const Form = ({ step }) => {
       </FormCard>
 
       <FormCard step="2" className={step2VisibilityStyle}>
-        {step2IsDone && (
+        {step2IsDoneCtx && (
           <div className={classes.checkMark}>
             <img src={checkMark} alt="checkMarkIcon" />
           </div>
@@ -57,7 +55,7 @@ const Form = ({ step }) => {
       <FormCard step="3" className={step3VisibilityStyle}>
         <button
           type="submit"
-          disabled={!step1IsDone || !step2IsDone || !step3IsDone}
+          disabled={!step1IsDoneCtx || !step2IsDoneCtx || !step3IsDoneCtx}
         >
           Complete Registration
         </button>
