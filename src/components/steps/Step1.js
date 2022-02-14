@@ -63,12 +63,16 @@ const Step1 = (props) => {
     return nameInputsStateCtx[key];
   });
 
+  const emptyValue = enteredNames.map((e) => e.trim() === "");
+  
   //  step 1 is done
   const inputsIsEmpty =
     enteredNames.includes("") ||
     enteredNames.includes(undefined) ||
     enteredNames.length === 0 ||
-    selectedNamesCountCtx === 0;
+    selectedNamesCountCtx === 0 ||
+    emptyValue.includes(true)
+    
 
   useEffect(() => {
     if (inputsIsEmpty) {

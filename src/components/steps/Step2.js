@@ -34,7 +34,7 @@ const Step2 = () => {
     });
   };
 
-  const companyNameIsEmpty = question1StateCtx === "YES" && companyNameStateCtx === "";
+  const companyNameIsEmpty = question1StateCtx === "YES" && companyNameStateCtx.trim() === "";
   
   
   useEffect(() => {
