@@ -74,10 +74,10 @@ const Form = ({ step }) => {
   };
 
   return (
-    <form className={classes["form-container"]} onSubmit={submitHandler}>
+    <form className={classes["form-container"] } onSubmit={submitHandler}>
       <FormCard step="1">
         {step1IsDoneCtx && (
-          <div className={classes.checkMark}>
+          <div className={classes.checkMark }>
             <img src={checkMark} alt="checkMarkIcon" />
           </div>
         )}
@@ -85,7 +85,7 @@ const Form = ({ step }) => {
 
       <FormCard step="2" className={step2VisibilityStyle}>
         {step2IsDoneCtx && (
-          <div className={classes.checkMark}>
+          <div className={classes.checkMark }>
             <img src={checkMark} alt="checkMarkIcon" />
           </div>
         )}

@@ -16,9 +16,10 @@
 }
 
 .checkMark {
- display: flex;
- align-items: center;
- justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: slide-down 500ms ease-out forwards;
 }
 
 .checkMark img {
@@ -27,4 +28,17 @@
 .disabled {
   pointer-events: none;
   opacity: 0.25;
+}
+.slide-down-animation {
+  animation: slide-down 500ms ease-out forwards;
+}
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
