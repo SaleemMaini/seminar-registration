@@ -6,7 +6,7 @@ export const FormDataContext = createContext();
 
 const defaultFormDataState = {
   step1: {
-    namesCount: 1,
+    namesCount: 0,
     names: { attendeeName1: "" },
   },
   step2: {

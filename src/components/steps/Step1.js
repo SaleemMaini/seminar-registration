@@ -11,18 +11,20 @@ import { StepVisibilityContext } from "../../store/StepVisibilityContextProvider
 import { FormDataContext } from "../../store/FormDataContext";
 
 const Step1 = (props) => {
-  const peopleCountOptions = [1, 2, 3, 4, 5]; // IF YOU WANT MORE OPTIONS JUST ADD ITEMS TO THE ARRAY HERE
+  const peopleCountOptions = [ 1, 2, 3, 4, 5]; // IF YOU WANT MORE OPTIONS JUST ADD ITEMS TO THE ARRAY HERE
   const selectPeopleCountRef = useRef();
-  const [selectedPeopleCount, setSelectedPeopleCount] = useState(0);
   const [step1IsDone, setStep1IsDone] = useState(false);
   const step1Ctx = useContext(StepVisibilityContext);
   const formDataCtx = useContext(FormDataContext);
   const nameInputsStateCtx = formDataCtx.formDataState.step1.names;
-  const selectedNamesCount = formDataCtx.formDataState.step1.namesCount;
-
+  const selectedNamesCountCtx = formDataCtx.formDataState.step1.namesCount;
+  console.log(selectedNamesCountCtx);
   const peopleCountHandler = () => {
     const selectedValue = selectPeopleCountRef.current.value;
-    setSelectedPeopleCount(selectedValue);
+    formDataCtx.context.updateFormDataStateHandler("step1", {
+      names: nameInputsStateCtx,
+      namesCount: selectedValue,
+    });
     // INIT VALUES
     for (let i = 1; i <= selectedValue; i++) {
       const key = `attendeeName${i}`;
@@ -32,7 +34,7 @@ const Step1 = (props) => {
     }
     // DELETE UN USEFUL DATA
     if (selectedValue < Object.keys(nameInputsStateCtx).length) {
-      for (let i = +selectedValue + 1; i < 10; i++) {
+      for (let i = +selectedValue + 1; i < 20; i++) {
         delete nameInputsStateCtx[`attendeeName${i}`];
       }
     }
@@ -46,11 +48,11 @@ const Step1 = (props) => {
         ...nameInputsStateCtx,
         [key]: value,
       },
+      namesCount: selectedNamesCountCtx,
     });
   };
-  console.log(nameInputsStateCtx);
   const peopleNameInputs = [];
-  for (let i = 1; i <= selectedPeopleCount; i++) {
+  for (let i = 1; i <= selectedNamesCountCtx; i++) {
     peopleNameInputs.push(
       <Input
         input={{
@@ -74,7 +76,8 @@ const Step1 = (props) => {
     if (
       enteredNames.includes("") ||
       enteredNames.includes(undefined) ||
-      enteredNames.length === 0
+      enteredNames.length === 0 ||
+      selectedNamesCountCtx === 0
     ) {
       setStep1IsDone(false);
     } else {
@@ -89,7 +92,7 @@ const Step1 = (props) => {
       step1Ctx.context.setStepIsDoneFalse("step1");
     }
   }, [step1IsDone]);
-
+  
   return (
     <Fragment>
       <h3>How many people will be attending? </h3>
@@ -98,6 +101,7 @@ const Step1 = (props) => {
         id="peopleAttendingCount"
         options={[...peopleCountOptions]}
         onChange={peopleCountHandler}
+        value={selectedNamesCountCtx}
       />
       {peopleNameInputs.length >= 1 && <h2>Please provide full names: </h2>}
       {peopleNameInputs}
