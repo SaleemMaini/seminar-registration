@@ -6,28 +6,14 @@ import checkMark from "../../assets/check-icon.png";
 
 const Form = ({ step }) => {
   const formDataCtx = useContext(FormDataContext);
-  const step1IsDoneCtx = formDataCtx.formDataState.step1IsDone;
-  const step2IsDoneCtx = formDataCtx.formDataState.step2IsDone;
-  const step3IsDoneCtx = formDataCtx.formDataState.step3IsDone;
+  const [step1IsDone, setStep1IsDone] = useState(false);
+  const [step2IsDone, setStep2IsDone] = useState(false);
+  const [step3IsDone, setStep3IsDone] = useState(false);
 
   const [step2VisibilityStyle, setStep2VisibilityStyle] = useState("");
   const [step3VisibilityStyle, setStep3VisibilityStyle] = useState("");
 
-  
-  useEffect(() => {
-    if (!step1IsDoneCtx) {
-      setStep2VisibilityStyle(classes.disabled);
-    } else if (step1IsDoneCtx) {
-      setStep2VisibilityStyle("");
-    }
-
-    if (!step1IsDoneCtx || !step2IsDoneCtx) {
-      setStep3VisibilityStyle(classes.disabled);
-    } else if (step1IsDoneCtx && step2IsDoneCtx) {
-      setStep3VisibilityStyle("");
-    }
-  }, [step1IsDoneCtx, step2IsDoneCtx]);
-  // OUT PUT
+  // GET DATA FROM THE CONTEXT STORE
   const enteredNamesCount = formDataCtx.formDataState.step1.namesCount;
   const enteredNames = formDataCtx.formDataState.step1.names;
   const isTheAttendedWantCompanyName =
@@ -38,7 +24,73 @@ const Form = ({ step }) => {
   const isAttendeeReadyToRock =
     formDataCtx.formDataState.step3.step3CheckBoxIsChecked;
 
+  //  STEP 1 IS DONE
+  const enteredNamesArray = Object.keys(enteredNames).map(function (key) {
+    return enteredNames[key];
+  });
 
+  const emptyValues = enteredNamesArray.map((e) => e.trim() === "");
+
+  const inputsIsEmpty =
+    enteredNamesArray.includes("") ||
+    enteredNamesArray.includes(undefined) ||
+    enteredNamesArray.length === 0 ||
+    enteredNamesCount === 0 ||
+    emptyValues.includes(true);
+
+  useEffect(() => {
+    if (inputsIsEmpty) {
+      setStep1IsDone(false);
+    } else {
+      setStep1IsDone(true);
+    }
+  }, [inputsIsEmpty]);
+
+  // STEP 2 IS DONE
+  const companyNameIsEmpty =
+    isTheAttendedWantCompanyName === "YES" && badgeCompanyName.trim() === "";
+
+  useEffect(() => {
+    if (
+      isTheAttendedWantCompanyName === null ||
+      isAnyoneRequireSpecialAccommodations === null ||
+      companyNameIsEmpty
+    ) {
+      setStep2IsDone(false);
+    } else {
+      setStep2IsDone(true);
+    }
+  }, [
+    isTheAttendedWantCompanyName,
+    isAnyoneRequireSpecialAccommodations,
+    companyNameIsEmpty,
+  ]);
+
+  // STEP 3 IS DONE
+  useEffect(() => {
+    if (isAttendeeReadyToRock) {
+      setStep3IsDone(true);
+    } else {
+      setStep3IsDone(false);
+    }
+  }, [isAttendeeReadyToRock]);
+
+  // HANDLE STEPS VISIBILITY
+  useEffect(() => {
+    if (!step1IsDone) {
+      setStep2VisibilityStyle(classes.disabled);
+    } else if (step1IsDone) {
+      setStep2VisibilityStyle("");
+    }
+
+    if (!step1IsDone || !step2IsDone) {
+      setStep3VisibilityStyle(classes.disabled);
+    } else if (step1IsDone && step2IsDone) {
+      setStep3VisibilityStyle("");
+    }
+  }, [step1IsDone, step2IsDone]);
+  
+  // OUT PUT TO CONSOLE
   const outPut = `The number of people will be attending is:  ${enteredNamesCount}, \n
     there names is: ${JSON.stringify(enteredNames)} \n
     the attendee want his company name on the badge: ${
@@ -51,41 +103,43 @@ const Form = ({ step }) => {
     }, \n
     Is Attendee Ready To Rock: ${isAttendeeReadyToRock ? "YES" : "NO"}
     `;
+
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(outPut);
-    
+    // SEND DATA TO FIREBASE API
     fetch(
       "https://seminar-registration-186cb-default-rtdb.firebaseio.com/registrations.json",
       {
         method: "POST",
         body: JSON.stringify({
           namesCount: enteredNamesCount,
-          names : enteredNames,
-          isTheAttendedWantCompanyName : isTheAttendedWantCompanyName,
+          names: enteredNames,
+          isTheAttendedWantCompanyName: isTheAttendedWantCompanyName,
           companyName: badgeCompanyName,
-          isAnyoneRequireSpecialAccommodations: isAnyoneRequireSpecialAccommodations,
-          isAttendeeReadyToRock: isAttendeeReadyToRock
+          isAnyoneRequireSpecialAccommodations:
+            isAnyoneRequireSpecialAccommodations,
+          isAttendeeReadyToRock: isAttendeeReadyToRock,
         }),
       }
     );
-
+    // RESET CONTEXT DATA
     formDataCtx.context.resetFormDataStateHandler();
   };
 
   return (
-    <form className={classes["form-container"] } onSubmit={submitHandler}>
+    <form className={classes["form-container"]} onSubmit={submitHandler}>
       <FormCard step="1">
-        {step1IsDoneCtx && (
-          <div className={classes.checkMark }>
+        {step1IsDone && (
+          <div className={classes.checkMark}>
             <img src={checkMark} alt="checkMarkIcon" />
           </div>
         )}
       </FormCard>
 
       <FormCard step="2" className={step2VisibilityStyle}>
-        {step2IsDoneCtx && (
-          <div className={classes.checkMark }>
+        {step2IsDone && (
+          <div className={classes.checkMark}>
             <img src={checkMark} alt="checkMarkIcon" />
           </div>
         )}
@@ -94,7 +148,7 @@ const Form = ({ step }) => {
       <FormCard step="3" className={step3VisibilityStyle}>
         <button
           type="submit"
-          disabled={!step1IsDoneCtx || !step2IsDoneCtx || !step3IsDoneCtx}
+          disabled={!step1IsDone || !step2IsDone || !step3IsDone}
         >
           Complete Registration
         </button>

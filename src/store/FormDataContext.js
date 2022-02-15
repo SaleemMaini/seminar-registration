@@ -17,9 +17,6 @@ const defaultFormDataState = {
   step3: {
     step3CheckBoxIsChecked: null,
   },
-  step1IsDone: false,
-  step2IsDone: false,
-  step3IsDone: false,
 };
 
 export const FormDataContextProvider = (props) => {

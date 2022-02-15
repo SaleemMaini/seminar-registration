@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext } from "react";
 import Input from "../UI/Input";
 import { FormDataContext } from "../../store/FormDataContext";
 
@@ -12,14 +12,6 @@ const Step3 = () => {
       step3CheckBoxIsChecked: e.target.checked,
     });
   };
-
-  useEffect(() => {
-    if (step3CheckBoxIsCheckedCtx) {
-      formDataCtx.context.updateFormDataStateHandler("step3IsDone", true);
-    } else {
-      formDataCtx.context.updateFormDataStateHandler("step3IsDone", false);
-    }
-  }, [step3CheckBoxIsCheckedCtx]);
 
   return (
     <Fragment>
