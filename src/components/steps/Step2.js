@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import {useContext, useEffect } from "react";
+import {useContext} from "react";
 import Input from "../UI/Input";
 import RadioInput from "../UI/RadioInput";
 import { FormDataContext } from "../../store/FormDataContext";
@@ -33,22 +33,6 @@ const Step2 = () => {
       companyName : e.target.value
     });
   };
-
-  const companyNameIsEmpty = question1StateCtx === "YES" && companyNameStateCtx.trim() === "";
-  
-  
-  useEffect(() => {
-    if (
-      question1StateCtx === null ||
-      question2StateCtx === null ||
-      companyNameIsEmpty
-    ) {
-      formDataCtx.context.updateFormDataStateHandler("step2IsDone", false);
-    } else {
-      formDataCtx.context.updateFormDataStateHandler("step2IsDone", true);
-    }
-  }, [question1StateCtx, question2StateCtx, companyNameIsEmpty]);
-
 
   return (
     <Fragment>

@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useEffect, useContext } from "react";
+import React, { Fragment, useRef, useContext } from "react";
 import Input from "../UI/Input";
 import Select from "../UI/Select";
 import { FormDataContext } from "../../store/FormDataContext";
@@ -60,27 +60,6 @@ const Step1 = (props) => {
       />
     );
   }
-  const enteredNames = Object.keys(nameInputsStateCtx).map(function (key) {
-    return nameInputsStateCtx[key];
-  });
-
-  const emptyValue = enteredNames.map((e) => e.trim() === "");
-
-  //  step 1 is done
-  const inputsIsEmpty =
-    enteredNames.includes("") ||
-    enteredNames.includes(undefined) ||
-    enteredNames.length === 0 ||
-    selectedNamesCountCtx === 0 ||
-    emptyValue.includes(true);
-
-  useEffect(() => {
-    if (inputsIsEmpty) {
-      formDataCtx.context.updateFormDataStateHandler("step1IsDone", false);
-    } else {
-      formDataCtx.context.updateFormDataStateHandler("step1IsDone", true);
-    }
-  }, [inputsIsEmpty]);
 
   return (
     <Fragment>
