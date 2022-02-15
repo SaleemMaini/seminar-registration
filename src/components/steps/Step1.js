@@ -5,7 +5,11 @@ import { FormDataContext } from "../../store/FormDataContext";
 import classes from "../Form/Form.module.css";
 
 const Step1 = (props) => {
-  const peopleCountOptions = [1, 2, 3, 4, 5]; // IF YOU WANT MORE OPTIONS JUST ADD ITEMS TO THE ARRAY HERE
+  const setNameInputsTotalCount = 5; // SET NUMBER OF ITEMS YOU WANT.
+  let peopleCountOptions = [];
+   for (let i =1 ; i<= setNameInputsTotalCount; i++ ) {
+    peopleCountOptions.push(i)
+  }
   const selectPeopleCountRef = useRef();
   const formDataCtx = useContext(FormDataContext);
   const nameInputsStateCtx = formDataCtx.formDataState.step1.names;
