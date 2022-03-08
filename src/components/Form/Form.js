@@ -1,9 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect ,useRef} from "react";
 import FormCard from "./FormCard";
 import classes from "./Form.module.css";
 import { FormDataContext } from "../../store/FormDataContext";
-import checkMark from "../../assets/check-icon.png";
-
+import CheckMark from "../../assets/CheckMark";
 const Form = ({ step }) => {
   const formDataCtx = useContext(FormDataContext);
   const [step1IsDone, setStep1IsDone] = useState(false);
@@ -13,6 +12,7 @@ const Form = ({ step }) => {
   const [step2VisibilityStyle, setStep2VisibilityStyle] = useState("");
   const [step3VisibilityStyle, setStep3VisibilityStyle] = useState("");
 
+  
   // GET DATA FROM THE CONTEXT STORE
   const enteredNamesCount = formDataCtx.formDataState.step1.namesCount;
   const enteredNames = formDataCtx.formDataState.step1.names;
@@ -89,7 +89,7 @@ const Form = ({ step }) => {
       setStep3VisibilityStyle("");
     }
   }, [step1IsDone, step2IsDone]);
-  
+
   // OUT PUT TO CONSOLE
   const outPut = `The number of people will be attending is:  ${enteredNamesCount}, \n
     there names is: ${JSON.stringify(enteredNames)} \n
@@ -130,21 +130,11 @@ const Form = ({ step }) => {
   return (
     <form className={classes["form-container"]} onSubmit={submitHandler}>
       <FormCard step="1">
-        {step1IsDone && (
-          <div className={classes.checkMark}>
-            <img src={checkMark} alt="checkMarkIcon" />
-          </div>
-        )}
+        <CheckMark steps={step1IsDone} />
       </FormCard>
-
       <FormCard step="2" className={step2VisibilityStyle}>
-        {step2IsDone && (
-          <div className={classes.checkMark}>
-            <img src={checkMark} alt="checkMarkIcon" />
-          </div>
-        )}
+        <CheckMark steps={step2IsDone}  />
       </FormCard>
-
       <FormCard step="3" className={step3VisibilityStyle}>
         <button
           type="submit"
