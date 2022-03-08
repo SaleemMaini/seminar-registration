@@ -1,8 +1,10 @@
 import React, { Fragment } from "react";
-import {useContext} from "react";
+import { useContext } from "react";
 import Input from "../UI/Input";
 import RadioInput from "../UI/RadioInput";
 import { FormDataContext } from "../../store/FormDataContext";
+import { CSSTransition } from "react-transition-group";
+import "./Steps.css";
 
 const Step2 = () => {
   const formDataCtx = useContext(FormDataContext);
@@ -14,7 +16,7 @@ const Step2 = () => {
     formDataCtx.context.updateFormDataStateHandler("step2", {
       question1: e.target.value,
       question2: question2StateCtx,
-      companyName : companyNameStateCtx
+      companyName: companyNameStateCtx,
     });
   };
 
@@ -22,7 +24,7 @@ const Step2 = () => {
     formDataCtx.context.updateFormDataStateHandler("step2", {
       question1: question1StateCtx,
       question2: e.target.value,
-      companyName : companyNameStateCtx
+      companyName: companyNameStateCtx,
     });
   };
 
@@ -30,7 +32,7 @@ const Step2 = () => {
     formDataCtx.context.updateFormDataStateHandler("step2", {
       question1: question1StateCtx,
       question2: question2StateCtx,
-      companyName : e.target.value
+      companyName: e.target.value,
     });
   };
 
@@ -61,7 +63,13 @@ const Step2 = () => {
             label="No"
           />
         </div>
-        {question1StateCtx === "YES" && (
+        <CSSTransition
+          mountOnEnter
+          unmountOnExit
+          in={question1StateCtx === "YES"}
+          timeout={300}
+          classNames="slide"
+        >
           <Input
             input={{
               type: "text",
@@ -72,7 +80,7 @@ const Step2 = () => {
             label="Company Name: "
             required
           />
-        )}
+        </CSSTransition>
       </div>
       {/* QUESTION 2 */}
       <div>
@@ -93,7 +101,7 @@ const Step2 = () => {
               id: "question2No",
               name: "question2",
               checked: question2StateCtx === "NO",
-              value:"NO",
+              value: "NO",
               onChange: question2RadioChangHandler,
             }}
             label="No"

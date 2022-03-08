@@ -1,0 +1,46 @@
+.checkMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkMark img {
+  max-width: 50%;
+}
+
+.check-mark-slide-enter {
+  opacity: 0;
+}
+
+.check-mark-slide-enter-active {
+  animation: slide-down 400ms ease-out forwards;
+}
+
+.check-mark-slide-exit {
+  animation: slide-up 500ms ease-out forwards;
+}
+.check-mark-slide-exit-active {
+  opacity: 0;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+}

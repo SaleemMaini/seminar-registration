@@ -2,13 +2,14 @@ import React, { Fragment, useRef, useContext } from "react";
 import Input from "../UI/Input";
 import Select from "../UI/Select";
 import { FormDataContext } from "../../store/FormDataContext";
-import classes from "../Form/Form.module.css";
-
+import { TransitionGroup } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
+import "./Steps.css";
 const Step1 = (props) => {
   const setNameInputsTotalCount = 5; // SET NUMBER OF ITEMS YOU WANT.
   let peopleCountOptions = [];
-   for (let i =1 ; i<= setNameInputsTotalCount; i++ ) {
-    peopleCountOptions.push(i)
+  for (let i = 1; i <= setNameInputsTotalCount; i++) {
+    peopleCountOptions.push(i);
   }
   const selectPeopleCountRef = useRef();
   const formDataCtx = useContext(FormDataContext);
@@ -47,21 +48,22 @@ const Step1 = (props) => {
       namesCount: selectedNamesCountCtx,
     });
   };
-
   const peopleNameInputs = [];
   for (let i = 1; i <= selectedNamesCountCtx; i++) {
     peopleNameInputs.push(
-      <Input
-        input={{
-          type: "text",
-          id: `attendeeName${i}`,
-          onChange: inputChangeHandler,
-          value: nameInputsStateCtx[`attendeeName${i}`],
-        }}
-        label={`Attendee ${i} Name  `}
-        key={`${i}`}
-        required
-      />
+      <CSSTransition key={`${i}`} classNames="slide" timeout={300}>
+        <Input
+          input={{
+            type: "text",
+            id: `attendeeName${i}`,
+            onChange: inputChangeHandler,
+            value: nameInputsStateCtx[`attendeeName${i}`],
+          }}
+          label={`Attendee ${i} Name  `}
+          required
+          className=""
+        />
+      </CSSTransition>
     );
   }
 
@@ -77,9 +79,9 @@ const Step1 = (props) => {
       />
 
       {peopleNameInputs.length >= 1 && (
-        <div className={classes["slide-down-animation"]}>
+        <div className="slide-down-animation">
           <h2>Please provide full names: </h2>
-          {peopleNameInputs}
+          <TransitionGroup>{peopleNameInputs}</TransitionGroup>
         </div>
       )}
     </Fragment>
